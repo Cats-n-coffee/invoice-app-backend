@@ -1,0 +1,26 @@
+EXPRESS
+
+[] create routes
+    [] routes for auth: signup, login, token(refresh token)
+    [] routes for invoice: getAllInvoices, getOneInvoice?, editInvoice, deleteInvoice, addInvoice
+    [] routes for client sessions
+[] controllers
+    [] controllers for auth
+    [] controllers for invoices
+    [] controllers for client sessions
+[] helper for password encryption/ decrypt
+[] auth token
+    [] login/signup --> 2 tokens: auth token + refresh token
+    [] setup cookies/cors to allow token to be stored
+
+MONGODB
+
+[] connection
+[] operations
+    [] insert
+    [] update
+    [] delete
+    [] fetch all
+    [] fetch one?
+[] create model/schema
+

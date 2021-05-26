@@ -14,5 +14,8 @@
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "mongodb": "^3.6.8"
+  },
+  "devDependencies": {
+    "colors": "^1.4.0"
   }
 }

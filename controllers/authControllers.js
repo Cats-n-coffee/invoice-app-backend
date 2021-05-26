@@ -2,6 +2,7 @@ const express = require('express');
 const dbAuthOperations = require('../db/dbAuthOperations');
 
 function signupPost(req, res) {
+    console.log('input singup', req.body)
     return dbAuthOperations.insertUser(req.body)
     .then(data => {
         console.log('in controlllers', data)

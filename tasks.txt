@@ -8,14 +8,26 @@ EXPRESS
     [] controllers for auth
     [] controllers for invoices
     [] controllers for client sessions
-[] helper for password encryption/ decrypt
+[] helpers
+    [X] password encryption/ decrypt
+    [] token/refresh token
 [] auth token
     [] login/signup --> 2 tokens: auth token + refresh token
     [] setup cookies/cors to allow token to be stored
 
-MONGODB
+MONGODB AUTH
 
-[] connection
+[X] connection
+[] operations
+    [] insert
+    [] update
+    [] delete
+    [] fetch all
+    [] fetch one?
+[] create model/schema
+
+MONGODB INVOICES
+
 [] operations
     [] insert
     [] update

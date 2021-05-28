@@ -31,12 +31,20 @@ async function verifyUser(user) {
     const accessCollection = await client
     .db(config.DB_NAME)
     .collection('users')
-
+console.log('login user', user)
     return accessCollection.findOne({ email: user.email })
     .then(async (result) => {
         if (result) {
             const pass = await passwordVerify(user.password, result.password)
             if (pass) {
+                // need to update the refresh token in the database upon login
+                await accessCollection.updateOne({ email: result.email }, {
+                    $set: {
+                        refresh_token: user.refresh_token
+                    }
+                })
+                .catch(err => err);
+
                 return { 
                     _id: result._id, 
                     username: result.username, 
@@ -57,7 +65,27 @@ async function verifyUser(user) {
     })
 }
 
+async function updateToken(token) {
+    const accessCollection = await client
+    .db(config.DB_NAME)
+    .collection('users')
+
+    return accessCollection.findOne({ refresh_token: token })
+    .then(record => {
+        if (record) {
+            return true;
+        }
+        else {
+            throw new Error('Unauthenticated request. Please login');
+        }
+    })
+    .catch(err => {
+        return { error: err.code || 'db error', message: err.message }
+    })
+}
+
 module.exports = {
     insertUser,
-    verifyUser
+    verifyUser, 
+    updateToken
 }

@@ -1,18 +1,19 @@
 EXPRESS
 
-[] create routes
-    [] routes for auth: signup, login, token(refresh token)
+[] create routes --> can you export express.Router from 2 files?
+    [X] routes for auth: signup, login, token(refresh token)
     [] routes for invoice: getAllInvoices, getOneInvoice?, editInvoice, deleteInvoice, addInvoice
     [] routes for client sessions
 [] controllers
-    [] controllers for auth
+    [O] controllers for auth
     [] controllers for invoices
     [] controllers for client sessions
 [] helpers
     [X] password encryption/ decrypt
-    [] token/refresh token
+    [O] token/refresh token
 [] auth token
-    [] login/signup --> 2 tokens: auth token + refresh token
+    [X] login/signup --> 2 tokens: auth token + refresh token
+    [] refreshtoken controller + logout controller --> wait until frontend?
     [] setup cookies/cors to allow token to be stored
 
 MONGODB AUTH

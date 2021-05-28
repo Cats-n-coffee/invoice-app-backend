@@ -24,8 +24,8 @@ async function signupPost(req, res) {
                 ],
                 'Access-Control-Allow-Credentials': true
             })
-            // .cookie('name', 'tobi', { domain: '.example.com', path: '/admin', secure: true })
-            // .cookie('rememberme', '1', { expires: new Date(Date.now() + 900000), httpOnly: true })
+            .cookie('name', 'tobi', { domain: '.example.com', path: '/admin', secure: true })
+            .cookie('rememberme', '1', { expires: new Date(Date.now() + 900000), httpOnly: true })
             .json(data)
     }) // missing response headers for 200 or 400
     .catch(err => {
@@ -47,11 +47,12 @@ async function loginPost(req, res) {
             .status(200)
             .header({
                 'Set-Cookie': [
-                    'token=' + token + '; maxAge=1801; httpOnly=true; SameSite=None; Secure=true;',
+                    'token=' + token + '; maxAge=1801; httpOnly=true; SameSite=None; Secure=true;', // Secure cookies not being set in Postman cookies
                     'refresh_token=' + refreshToken + '; maxAge=604800; httpOnly=true; SameSite=None; Secure=true;'
                 ],
                 'Access-Control-Allow-Credentials': true
             })
+            //.cookie('token', token, { maxAge: '1801', httpOnly: true, secure: true })
             .json(data)
     })
     .catch(err => {
@@ -61,7 +62,17 @@ async function loginPost(req, res) {
 }
 
 function logoutPost(req, res) {
-    res.send('logoutPost')
+    try {
+        res
+        .status(200)
+        .cookie("token", "", { maxAge: 0 })
+        .cookie("refresh_token", "", { maxAge: 0 })
+        .end();
+    }
+    catch (err ){
+        console.log('logout controller err', err)
+        res.status(500).json({ message: err.message || 'Logout route error' })
+    }
 }
 
 async function refreshTokenPost(req, res) {

@@ -12,20 +12,23 @@ async function getAllInvoices(req, res) {
     // single invoice display handled by f-e
     return dbInvoiceOperations.findAllInvoices(email)
     .then(data => {
-        console.log('find all invoices', data)
-        res.send('get all');
+        if (data.error) {
+            throw new Error(data.message)
+        }
+        else {
+            console.log('find all invoices', data)
+            res.status(200).json(data)
+        }
     })
     .catch(err => {
         console.log('find invoices err', err)
+        res.status(500)
+           .json({ 
+               error: err.code || 'server error', 
+               message: err.message || 'Could not retrieve invoices' 
+            })
     })
 }
-
-// async function getOneInvoice(req, res) {
-//     // find one with user email/id and invoice id/date?
-
-//     // get user email
-//     res.send('get one');
-// }
 
 async function postNewInvoice(req, res) { // does it need to await for anything?
     // insert one with user email/id
@@ -36,7 +39,7 @@ async function postNewInvoice(req, res) { // does it need to await for anything?
     return dbInvoiceOperations.insertInvoice({ invoice_id: invoiceId, ...req.body })
     .then(data => {
         if (data.error) {
-            throw new Error('Could not create invoice')
+            throw new Error(data.message)
         }
         else {
             console.log('post invoice controller', data)
@@ -48,7 +51,8 @@ async function postNewInvoice(req, res) { // does it need to await for anything?
         res.status(500)
            .json({ 
                error: err.code || 'server error', 
-               message: err.message || 'Could not add invoice' })
+               message: err.message || 'Could not add invoice' 
+            })
     })
 }
 
@@ -57,7 +61,23 @@ async function putEditInvoice(req, res) {
     // edit done in f-e from the invoice itself
 
     // f-e sends user email and invoice id and invoice itself(data)
-    res.send('edit invoice');
+    return dbInvoiceOperations.updateInvoice(req.body)
+    .then(data => {
+        if (data.error) {
+            throw new Error(data.message)
+        }
+        else {
+            console.log('in controllers', data)
+            res.status(200).json(data);
+        }
+    })
+    .catch(err => {
+        console.log('controller err', err)
+        res.status(500).json({ 
+            error: err.code || 'server error', 
+            message: err.message || 'Cannot edit invoice' 
+        })
+    })
 }
 
 async function deleteInvoice(req, res) {
@@ -70,7 +90,7 @@ async function deleteInvoice(req, res) {
     return dbInvoiceOperations.deleteInvoiceWithId(invoiceId)
     .then(data => {
         if (data.error) {
-            throw new Error('Could not delete invoice')
+            throw new Error(data.message)
         }
         else {
             console.log('in controllers', data)
@@ -79,7 +99,10 @@ async function deleteInvoice(req, res) {
     })
     .catch(err => {
         console.log('controller err', err)
-        res.status(500).json({ error: err.code || 'server error', message: 'Cannot delete invoice' })
+        res.status(500).json({ 
+            error: err.code || 'server error', 
+            message: err.message || 'Could not delete invoice' 
+        })
     })
 }
 

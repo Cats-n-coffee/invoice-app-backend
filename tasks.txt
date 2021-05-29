@@ -2,7 +2,7 @@ EXPRESS
 
 [] create routes --> can you export express.Router from 2 files?
     [X] routes for auth: signup, login, token(refresh token)
-    [] routes for invoice: getAllInvoices, getOneInvoice?, editInvoice, deleteInvoice, addInvoice
+    [X] routes for invoice: getAllInvoices, getOneInvoice?, editInvoice, deleteInvoice, addInvoice
     [] routes for client sessions
 [] controllers
     [O] controllers for auth
@@ -20,20 +20,17 @@ MONGODB AUTH
 
 [X] connection
 [] operations
-    [] insert
-    [] update
-    [] delete
-    [] fetch all
-    [] fetch one?
-[] create model/schema
+    [X] insert signup
+    [X] update login / find login
+    [] find refresh token
+[X] create model/schema
 
 MONGODB INVOICES
 
 [] operations
-    [] insert
+    [X] insert
     [] update
-    [] delete
-    [] fetch all
-    [] fetch one?
+    [X] delete
+    [X] fetch all
 [] create model/schema
 

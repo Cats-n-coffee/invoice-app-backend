@@ -5,8 +5,9 @@ async function getAllInvoices(req, res) {
     // find many with user email/id
 
     // get user email, assuming it is on the body
-    const email = req.body;
+    const email = { user_email: req.query.email };
     // display all invoices for that user
+    console.log(req.headers)
 
     // response send all invoice with their details on json
     // single invoice display handled by f-e
@@ -16,7 +17,6 @@ async function getAllInvoices(req, res) {
             throw new Error(data.message)
         }
         else {
-            console.log('find all invoices', data)
             res.status(200).json(data)
         }
     })
@@ -35,6 +35,7 @@ async function postNewInvoice(req, res) { // does it need to await for anything?
     // const invoice = req.body.invoice;
     // console.log('body', invoice)
     const invoiceId = generateId();
+    // DATA TO ADD UPON POST: creation_date, status
 
     return dbInvoiceOperations.insertInvoice({ invoice_id: invoiceId, ...req.body })
     .then(data => {
@@ -61,6 +62,7 @@ async function putEditInvoice(req, res) {
     // edit done in f-e from the invoice itself
 
     // f-e sends user email and invoice id and invoice itself(data)
+    // need to serialize the req body with the db operation params
     return dbInvoiceOperations.updateInvoice(req.body)
     .then(data => {
         if (data.error) {
@@ -85,7 +87,7 @@ async function deleteInvoice(req, res) {
     // delete done in f-e from the invoice itself
 
     // f-e send user email and invoice id to delete
-    const invoiceId = req.body;
+    const invoiceId = req.body; // add the user email if possible?
 
     return dbInvoiceOperations.deleteInvoiceWithId(invoiceId)
     .then(data => {

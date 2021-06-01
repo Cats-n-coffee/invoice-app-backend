@@ -1,5 +1,6 @@
 const { config } = require('../config/config');
 
+// User schema used upon signup. Username, email and password must be a string
 async function createUserSchema(client) {
     await client.db(config.DB_NAME).command( {
         collMod: "users",

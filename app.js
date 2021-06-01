@@ -1,5 +1,7 @@
 const express = require('express');
 const app = express();
+const cookieParser = require('cookie-parser');
+const cors = require('cors');
 const authRouter = require('./routes/authRoutes');
 const invoiceRouter = require('./routes/invoiceRoutes')
 const { dbConnection } = require('./db/dbConnection');
@@ -9,8 +11,18 @@ const colors = require('colors');
 async function bootstrap() {
     await dbConnection();
 
+    app.use(cors({ 
+        credentials: true, 
+        origin: true 
+    }));
+    app.options("*", cors({ 
+        credentials: true, 
+        origin: true 
+    }));
+
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
+    app.use(cookieParser());
     app.use('/api', authRouter);
     app.use('/api', invoiceRouter);
 

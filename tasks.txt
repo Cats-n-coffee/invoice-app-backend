@@ -6,14 +6,16 @@ EXPRESS
     [] routes for client sessions
 [] controllers
     [O] controllers for auth
-    [] controllers for invoices
+    [X] controllers for invoices
     [] controllers for client sessions
 [] helpers
     [X] password encryption/ decrypt
-    [O] token/refresh token
+    [X] token/refresh token
+[] middleware
+    [] authenticate all invoices routes with token
 [] auth token
-    [X] login/signup --> 2 tokens: auth token + refresh token
-    [] refreshtoken controller + logout controller --> wait until frontend?
+    [X] login/signup --> 2 tokens: auth token + refresh token =======>> DO I NEED TO SEND THE TOKENS IN THE JSON WITH USER EMAIL AND USERNAME??
+    [] refreshtoken controller + logout controller --> wait until frontend? 
     [] setup cookies/cors to allow token to be stored
 
 MONGODB AUTH
@@ -32,5 +34,5 @@ MONGODB INVOICES
     [] update
     [X] delete
     [X] fetch all
-[] create model/schema
+[X] create model/schema
 

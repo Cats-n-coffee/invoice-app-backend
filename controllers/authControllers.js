@@ -21,8 +21,8 @@ async function signupPost(req, res) {
             .status(201)
             .header({
                 'Set-Cookie': [
-                    'token=' + token + '; maxAge=1801; httpOnly=true; SameSite=None; Secure=true;',
-                    'refresh_token=' + refreshToken + '; maxAge=604800; httpOnly=true; SameSite=None; Secure=true;'
+                    'token=' + token + '; maxAge=1801; HttpOnly=true; SameSite=None; Secure=true;',
+                    'refresh_token=' + refreshToken + '; maxAge=604800; HttpOnly=true; SameSite=None; Secure=true;'
                 ],
                 'Access-Control-Allow-Credentials': true
             })
@@ -48,18 +48,24 @@ async function loginPost(req, res) {
     .then(data => {
         console.log('login controller', data)
         // Response: cookies with both tokens, user data in JSON object
-        res
+        if (data.error) {
+            throw new Error(data.message)
+        }
+        else {
+            res
+            .cookie('token', token, { maxAge: 18000, httpOnly: true, secure: true, sameSite: 'none' })
+            .cookie('refresh_token', refreshToken, { maxAge: 168000, httpOnly: true, secure: true, sameSite: 'none' })
             .status(200)
             .header({
-                'Set-Cookie': [
-                    'token=' + token + '; maxAge=1801; httpOnly=true; SameSite=None; Secure=true;', // Secure cookies not being set in Postman cookies
-                    'refresh_token=' + refreshToken + '; maxAge=604800; httpOnly=true; SameSite=None; Secure=true;'
-                ],
+                // 'Set-Cookie': [
+                //     'token=' + token + '; maxAge=18001; HttpOnly=true; Secure=true; SameSite=None;', // Secure cookies not being set in Postman cookies
+                //     'refresh_token=' + refreshToken + '; maxAge=604800; HttpOnly=true; Secure=true; SameSite=None;'
+                // ],
                 'Access-Control-Allow-Credentials': true,
-                'Access-Control-Allow-Origin': 'http://localhost:3000'
+                //'Access-Control-Allow-Origin': 'http://127.0.0.1:3000'
             })
-            //.cookie('token=', token, { maxAge: '1801', httpOnly: true, secure: true })
             .json(data)
+        }
     })
     .catch(err => {
         console.log(err)

@@ -9,21 +9,17 @@ function generateRefreshToken(email) {
     return jwt.sign({ email }, config.REFRESH_TOKEN_SECRET, { expiresIn: '7d' })
 }
 
-// function generateRefreshToken(email) {
-//     return jwt.sign({ email }, config.REFRESH_TOKEN_SECRET, { expiresIn: '7d' }, (err, result) => {
-//         if (err) {
-//             console.log('refresh token err', err);
-//             throw new Error;
-//         }
-//         else {
-//             console.log(result)
-//             return result;
-//         }    
-//     })
-// }
-
 function verifyToken(token) {
-    return jwt.verify(token, config.REFRESH_TOKEN_SECRET)
+    try {
+        const isValid = jwt.verify(token, config.REFRESH_TOKEN_SECRET);
+        console.log('verification', isValid)
+        return true;
+    }
+    catch (err) {
+        console.log('catch token verify', err)
+        return err
+    }
+    
 }
 
 module.exports = {

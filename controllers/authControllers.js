@@ -46,7 +46,7 @@ async function loginPost(req, res) {
     // Verify user in the database and change refresh token
     return dbAuthOperations.verifyUser({ ...req.body, refresh_token: refreshToken })
     .then(data => {
-        console.log('login controller', data)
+        console.log('login controller', data, refreshToken)
         // Response: cookies with both tokens, user data in JSON object
         if (data.error) {
             throw new Error(data.message)

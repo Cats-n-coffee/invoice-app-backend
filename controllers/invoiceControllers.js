@@ -22,7 +22,7 @@ async function getAllInvoices(req, res) {
     })
     .catch(err => {
         console.log('find invoices err', err)
-        res.status(500)
+        res.status(400)
            .json({ 
                error: err.code || 'server error', 
                message: err.message || 'Could not retrieve invoices' 

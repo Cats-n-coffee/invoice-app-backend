@@ -1,5 +1,5 @@
 const { config } = require('../config/config');
-const { verifyToken, generateToken } = require('../helpers/accessTokens');
+const { verifyToken, generateToken, verifyRefreshToken } = require('../helpers/accessTokens');
 const jwt = require('jsonwebtoken');
 const colors = require('colors');
 
@@ -11,15 +11,18 @@ const authenticateUser = async (req, res, next) => {
       const token = tokenCookie.split("=")[1];
       const refreshCookie = allCookies.split("; ")[0];
       const refreshToken = refreshCookie.split("=")[1];
+      console.log('auth token is'.bgCyan, token)
+      console.log('refresh token is'.bgCyan, refreshToken)
 
       // Verify the auth token to maintain access to protected routes
       jwt.verify(token, config.TOKEN_SECRET, async function (err, user) {
         if (err) {
           // Check if user has a refresh token: if they have one, carry on, otherwise return error
-          const isRefreshTokenValid = await verifyToken(refreshToken);
+          const isRefreshTokenValid = await verifyRefreshToken(refreshToken);
           if (isRefreshTokenValid) {
             console.log('generated new token'.blue.bgYellow);
-            req.user = user;
+            //req.user = user;
+            console.log('user'.red, req.user )
             const newToken = await generateToken(user.email)
             res.status(200).cookie('token', newToken, { maxAge: 18000, httpOnly: true, secure: true, sameSite: 'none' });
           }

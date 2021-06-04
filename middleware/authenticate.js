@@ -5,20 +5,27 @@ const colors = require('colors');
 
 const authenticateUser = async (req, res, next) => {
     const allCookies = req.headers.cookie;
+    console.log('all cookies'.bgGreen, allCookies)
     
     if (allCookies) {
-      const tokenCookie = allCookies.split("; ")[1]; // adjust with current headers
-      const token = tokenCookie.split("=")[1];
-      const refreshCookie = allCookies.split("; ")[0];
-      const refreshToken = refreshCookie.split("=")[1];
-      console.log('auth token is'.bgCyan, token)
-      console.log('refresh token is'.bgCyan, refreshToken)
+      // LOOK FOR THE CORRECT COOKIE BY KEY ----> CREATE AN OBJECT?? look for key value pairs
+      let cookieObj = {};
+      const tokenCookie = allCookies.split("; ")[0]; 
+      const tokenKey = tokenCookie.split("=")[0];
+      const tokenValue = tokenCookie.split('=')[1];
+      cookieObj[tokenKey] = tokenValue;
+      const refreshCookie = allCookies.split("; ")[1];
+      const refreshTokenKey = refreshCookie.split("=")[0];
+      const refreshTokenValue = refreshCookie.split("=")[1];
+      cookieObj[refreshTokenKey] = refreshTokenValue;
+  
+      console.log('cookie obj'.bgCyan, cookieObj);
 
       // Verify the auth token to maintain access to protected routes
-      jwt.verify(token, config.TOKEN_SECRET, async function (err, user) {
+      jwt.verify(cookieObj.token, config.TOKEN_SECRET, async function (err, user) {
         if (err) {
           // Check if user has a refresh token: if they have one, carry on, otherwise return error
-          const isRefreshTokenValid = await verifyRefreshToken(refreshToken);
+          const isRefreshTokenValid = await verifyRefreshToken(cookieObj.refresh_token);
           if (isRefreshTokenValid) {
             console.log('generated new token'.blue.bgYellow);
             //req.user = user;

@@ -1,5 +1,5 @@
 const { config } = require('../config/config');
-const { verifyToken, generateToken, verifyRefreshToken } = require('../helpers/accessTokens');
+const { generateToken, verifyRefreshToken } = require('../helpers/accessTokens');
 const jwt = require('jsonwebtoken');
 const colors = require('colors');
 
@@ -8,7 +8,6 @@ const authenticateUser = async (req, res, next) => {
     console.log('all cookies'.bgGreen, allCookies)
     
     if (allCookies) {
-      // LOOK FOR THE CORRECT COOKIE BY KEY ----> CREATE AN OBJECT?? look for key value pairs
       let cookieObj = {};
       const tokenCookie = allCookies.split("; ")[0]; 
       const tokenKey = tokenCookie.split("=")[0];

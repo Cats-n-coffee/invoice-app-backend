@@ -4,7 +4,7 @@ function generateId() {
     // console.log('random', letters + numbers)
     // return letters + numbers
 
-    let str = require('crypto').randomBytes(4).toString('hex').toUpperCase();
+    let str = require('crypto').randomBytes(3).toString('hex').toUpperCase();
     return str
 }
 

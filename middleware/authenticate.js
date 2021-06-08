@@ -5,7 +5,8 @@ const colors = require('colors');
 
 const authenticateUser = async (req, res, next) => {
     const allCookies = req.headers.cookie;
-    console.log('all cookies'.bgGreen, allCookies)
+    console.log('req hearders'.bgMagenta, req.headers)
+    console.log('all cookies'.bgGreen, allCookies) 
     
     if (allCookies) {
       let cookieObj = {};
@@ -30,7 +31,7 @@ const authenticateUser = async (req, res, next) => {
             //req.user = user;
             console.log('user'.red, req.user )
             const newToken = await generateToken(user.email)
-            res.status(200).cookie('token', newToken, { maxAge: 18000, httpOnly: true, secure: true, sameSite: 'none' });
+            await res.status(200).cookie('token', newToken, { maxAge: 18000, httpOnly: true, secure: true, sameSite: 'none' });
           }
           else {
             res.status(403).json({ error: 'auth error', message: 'Cannot authenticate token, access denied' });

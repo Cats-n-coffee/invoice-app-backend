@@ -82,21 +82,25 @@ async function createInvoiceSchema(client) {
                            description: "must be a string and is required"
                         },
                          item_list: {
-                             bsonType: "object",
-                             required: [ "item_name", "quantity", "price" ],
-                             properties: {
-                                 item_name: {
-                                     bsonType: "string",
-                                     description: "must be a string and is required"
+                             bsonType: ["array"],
+                             items: {
+                                bsonType: "object",
+                                required: [ "item_name", "quantity", "price" ],
+                                properties: {
+                                    item_name: {
+                                       bsonType: "string",
+                                       description: "must be a string and is required"
+                                    },
+                                    quantity: {
+                                       bsonType: "int",
+                                       description: "must be an integer and is required"
+                                    },
+                                    price: {
+                                       bsonType: "string",
+                                       description: "must be a string and is required"
+                                    }
                                  },
-                                 quantity: {
-                                     bsonType: "int",
-                                     description: "must be an integer and is required"
-                                 },
-                                 price: {
-                                    bsonType: "string",
-                                    description: "must be a string and is required"
-                                 }
+                                 description: "must be an array of objects"
                              }
                          }
                      }

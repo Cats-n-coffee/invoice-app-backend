@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const { config } = require('../config/config');
 
 function generateToken(email) {
-    return jwt.sign({ email }, config.TOKEN_SECRET, { expiresIn: 1800 })
+    return jwt.sign({ email }, config.TOKEN_SECRET, { expiresIn: 18000 })
 }
 
 function generateRefreshToken(email) {

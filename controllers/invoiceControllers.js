@@ -30,14 +30,12 @@ async function getAllInvoices(req, res) {
     })
 }
 
-async function postNewInvoice(req, res) { // does it need to await for anything?
-    // insert one with user email/id
-    // const invoice = req.body.invoice;
-    // console.log('body', invoice)
+async function postNewInvoice(req, res) {
     const invoiceId = generateId();
     // DATA TO ADD UPON POST: creation_date, status
+    const newInvoice = { invoice_id: invoiceId, ...req.body }
 
-    return dbInvoiceOperations.insertInvoice({ invoice_id: invoiceId, ...req.body })
+    return dbInvoiceOperations.insertInvoice(newInvoice)
     .then(data => {
         if (data.error) {
             throw new Error(data.message)
@@ -60,7 +58,7 @@ async function postNewInvoice(req, res) { // does it need to await for anything?
 async function putEditInvoice(req, res) {
     // update one with user email/id and invoice id
     // edit done in f-e from the invoice itself
-
+console.log('logging edit', req.body)
     // f-e sends user email and invoice id and invoice itself(data)
     // need to serialize the req body with the db operation params
     return dbInvoiceOperations.updateInvoice(req.body)

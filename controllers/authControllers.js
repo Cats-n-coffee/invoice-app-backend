@@ -53,14 +53,10 @@ async function loginPost(req, res) {
         }
         else {
             res
-            .cookie('token', token, { maxAge: 18000, httpOnly: true, secure: true, sameSite: 'none' })
+            .cookie('token', token, { maxAge: 180000, httpOnly: true, secure: true, sameSite: 'none' })
             .cookie('refresh_token', refreshToken, { maxAge: 168000, httpOnly: true, secure: true, sameSite: 'none' })
             .status(200)
             .header({
-                // 'Set-Cookie': [
-                //     'token=' + token + '; maxAge=18001; HttpOnly=true; Secure=true; SameSite=None;', // Secure cookies not being set in Postman cookies
-                //     'refresh_token=' + refreshToken + '; maxAge=604800; HttpOnly=true; Secure=true; SameSite=None;'
-                // ],
                 'Access-Control-Allow-Credentials': true,
                 //'Access-Control-Allow-Origin': 'http://127.0.0.1:3000'
             })

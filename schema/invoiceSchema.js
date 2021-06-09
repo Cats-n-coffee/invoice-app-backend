@@ -18,7 +18,7 @@ async function createInvoiceSchema(client) {
                      required: [ 
                          "biller_street", "biller_city", "biller_zipcode", "biller_country", 
                          "client_name", "client_email", "client_street", "client_city", "client_zipcode", "client_country",
-                         "invoice_date", "payment_terms", "project_description", "invoice_amount", "invoice_status", "item_list" 
+                         "invoice_date", "payment_terms", "project_description", "invoice_status", "item_list" 
                         ],
                      properties: {
                          biller_street : {
@@ -30,7 +30,7 @@ async function createInvoiceSchema(client) {
                              description: "must be a string and is required"
                          },
                          biller_zipcode: {
-                            bsonType: "int",
+                            bsonType: "string",
                             description: "must be an integer and is required"
                         },
                          biller_country: {
@@ -54,7 +54,7 @@ async function createInvoiceSchema(client) {
                             description: "must be a string and is required"
                          },
                          client_zipcode: {
-                            bsonType: "int",
+                            bsonType: "string",
                             description: "must be an integer and is required"
                          },
                          client_country: {
@@ -73,10 +73,6 @@ async function createInvoiceSchema(client) {
                             bsonType: "string",
                             description: "must be a string and is required"
                          },
-                         invoice_amount: {
-                           bsonType: "string",
-                           description: "must be a string and is required"
-                        },
                         invoice_status: {
                            bsonType: "string",
                            description: "must be a string and is required"
@@ -85,17 +81,25 @@ async function createInvoiceSchema(client) {
                              bsonType: ["array"],
                              items: {
                                 bsonType: "object",
-                                required: [ "item_name", "quantity", "price" ],
+                                required: [ "id", "item_name", "quantity", "price", "total" ],
                                 properties: {
+                                    id: {
+                                       bsonType: "string",
+                                       description: "must be a string and is required"
+                                    },
                                     item_name: {
                                        bsonType: "string",
                                        description: "must be a string and is required"
                                     },
                                     quantity: {
-                                       bsonType: "int",
+                                       bsonType: "string",
                                        description: "must be an integer and is required"
                                     },
                                     price: {
+                                       bsonType: "string",
+                                       description: "must be a string and is required"
+                                    },
+                                    total: {
                                        bsonType: "string",
                                        description: "must be a string and is required"
                                     }

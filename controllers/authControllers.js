@@ -64,8 +64,11 @@ async function loginPost(req, res) {
         }
     })
     .catch(err => {
-        console.log(err)
-        res.status(500).json(err)
+        console.log('login controller catch',err)
+        res.status(500).json({
+            error: err.code || "db error",
+            message: err.message || "Email or password incorrect"
+        })
     })
 }
 

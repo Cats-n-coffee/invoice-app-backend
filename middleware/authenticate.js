@@ -31,11 +31,15 @@ const authenticateUser = async (req, res, next) => {
             //req.user = user;
             console.log('user'.red, req.user )
             const newToken = await generateToken(user.email)
-            await res.status(200).cookie('token', newToken, { maxAge: 18000, httpOnly: true, secure: true, sameSite: 'none' });
+            await res
+                  .cookie('token', newToken, { maxAge: 180000, httpOnly: true, secure: true, sameSite: 'none' })
+                  //.cookie('refresh_token', refreshToken, { maxAge: 168000, httpOnly: true, secure: true, sameSite: 'none' })
+                  .status(200)
           }
           else {
+            console.log("error verifying token".bgYellow, err);
             res.status(403).json({ error: 'auth error', message: 'Cannot authenticate token, access denied' });
-            console.log("error verifying token", err);
+            
           }
         } else {
           console.log("token verified");

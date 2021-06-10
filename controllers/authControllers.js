@@ -53,8 +53,8 @@ async function loginPost(req, res) {
         }
         else {
             res
-            .cookie('token', token, { maxAge: 180000, httpOnly: true, secure: true, sameSite: 'none' })
-            .cookie('refresh_token', refreshToken, { maxAge: 168000, httpOnly: true, secure: true, sameSite: 'none' })
+            .cookie('token', token, { maxAge: 1800000, httpOnly: true, secure: true, sameSite: 'none' })
+            .cookie('refresh_token', refreshToken, { maxAge: 2000000, httpOnly: true, secure: true, sameSite: 'none' })
             .status(200)
             .header({
                 'Access-Control-Allow-Credentials': true,

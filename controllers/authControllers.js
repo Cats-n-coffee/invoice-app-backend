@@ -33,9 +33,6 @@ async function signupPost(req, res) {
         res.status(500).json(err)
     })
 }
-//http://expressjs.com/en/resources/middleware/cookie-session.html
-//https://stackoverflow.com/questions/46288437/set-cookies-for-cross-origin-requests/63978697#63978697
-//https://stackoverflow.com/questions/36824106/express-doesnt-set-a-cookie
 
 async function loginPost(req, res) {
     console.log('login', req.body)
@@ -46,7 +43,6 @@ async function loginPost(req, res) {
     // Verify user in the database and change refresh token
     return dbAuthOperations.verifyUser({ ...req.body, refresh_token: refreshToken })
     .then(data => {
-        console.log('login controller', data, 'refresh token', refreshToken)
         // Response: cookies with both tokens, user data in JSON object
         if (data.error) {
             throw new Error(data.message)
@@ -87,52 +83,12 @@ function logoutPost(req, res) {
     }
 }
 
-async function refreshTokenPost(req, res) {
-    // Get the refresh token from cookies
-    const refreshToken = req.body.refresh_token;
-
-    // If there is no refresh token return 403
-    if (!refreshToken) {
-        return res.status(403).json({ message: "Unauthenticated request" });
-    }
-
-    // Make sure the refresh token is valid
-    const checkToken = await verifyToken(refreshToken)
-
-    // Check if the refresh token in the database matches/ check if the refresh token is in the database
-    return dbAuthOperations.updateToken(refreshToken)
-    .then(async (data) => {
-        // check data.error ?
-        console.log('refresh token', data);
-        console.log('veirfy', checkToken)
-        // If the refresh token is verified/valid, then generate a new regular token
-        if (checkToken) {
-            const newToken = await generateToken(checkToken.email)
-            // Send the response with the new regular token and refresh token in cookies
-            res
-            .status(200)
-            .header({
-                'Set-Cookie': [
-                    'token=' + newToken + '; maxAge=1801; httpOnly=true; SameSite=None; Secure=true;',
-                    'refresh_token=' + refreshToken + '; maxAge=604800; httpOnly=true; SameSite=None; Secure=true;'
-                ],
-                'Access-Control-Allow-Credentials': true
-            }).json({ email: checkToken.email })
-        }
-        else {
-            res.status(403).json({ error: 403, message: "Unauthorized request" })
-        }
-    })
-    .catch(err => {
-        console.log('token controller err', err)
-        res.status(500).json({ err })
-    })
-    
-}
-
 module.exports = { 
     signupPost, 
     loginPost, 
     logoutPost, 
-    refreshTokenPost 
 }
+
+//http://expressjs.com/en/resources/middleware/cookie-session.html
+//https://stackoverflow.com/questions/46288437/set-cookies-for-cross-origin-requests/63978697#63978697
+//https://stackoverflow.com/questions/36824106/express-doesnt-set-a-cookie

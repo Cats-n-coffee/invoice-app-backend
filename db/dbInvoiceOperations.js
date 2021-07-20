@@ -6,7 +6,6 @@ async function findAllInvoices(data) {
     const accessCollection = await client
     .db(config.DB_NAME)
     .collection('invoices')
-console.log('db', data)
     return accessCollection
     .find(data)
     .toArray()
@@ -38,7 +37,6 @@ async function insertInvoice(data) {
     return accessCollection.insertOne(data)
     .then(result => {
         // Returns the inserted invoice
-        console.log('insert invoice', result.insertedCount)
         return result.ops[0];
     })
     .catch(err => {
@@ -63,7 +61,6 @@ async function updateInvoice(data) {
         { returnDocument: 'after' }
     )
     .then(result => {
-        console.log('update in db', result)
         // If nothing gets returned, return an error
         if (result.value === null) {
             throw new Error('Cannot find invoice id')
@@ -91,7 +88,6 @@ async function deleteInvoiceWithId(data) {
     return accessCollection.deleteOne(data)
     .then(result => {
         // Returns 1 if invoice was deleted, throws an error if nothing was deleted
-        console.log('deleted', result.deletedCount)
         if (result.deletedCount === 1) return result.deletedCount;
         else {
             throw new Error('No invoice to delete')

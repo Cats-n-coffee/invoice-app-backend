@@ -34,7 +34,6 @@ async function postNewInvoice(req, res) {
             throw new Error(data.message)
         }
         else {
-            console.log('post invoice controller', data)
             res.status(201).json(data)
         }
     })
@@ -55,7 +54,6 @@ async function putEditInvoice(req, res) {
             throw new Error(data.message)
         }
         else {
-            console.log('in controllers', data)
             res.status(200).json(data);
         }
     })
@@ -77,7 +75,6 @@ async function deleteInvoice(req, res) {
             throw new Error(data.message)
         }
         else {
-            console.log('in controllers', data)
             res.status(200).json({ message: 'Invoice deleted' });
         }
     })

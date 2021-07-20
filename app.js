@@ -15,10 +15,6 @@ async function bootstrap() {
         credentials: true, 
         origin: true 
     }));
-    app.options("*", cors({ 
-        credentials: true, 
-        origin: true 
-    }));
 
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));

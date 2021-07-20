@@ -2,15 +2,9 @@ const dbInvoiceOperations = require('../db/dbInvoiceOperations');
 const generateId = require('../helpers/invoiceIdGenerator');
 
 async function getAllInvoices(req, res) {
-    // find many with user email/id
-
-    // get user email, assuming it is on the body
     const email = { user_email: req.query.email };
-    // display all invoices for that user
     console.log(req.headers)
 
-    // response send all invoice with their details on json
-    // single invoice display handled by f-e
     return dbInvoiceOperations.findAllInvoices(email)
     .then(data => {
         if (data.error) {
@@ -32,7 +26,6 @@ async function getAllInvoices(req, res) {
 
 async function postNewInvoice(req, res) {
     const invoiceId = generateId();
-    // DATA TO ADD UPON POST: creation_date, status
     const newInvoice = { invoice_id: invoiceId, ...req.body }
 
     return dbInvoiceOperations.insertInvoice(newInvoice)
@@ -56,11 +49,6 @@ async function postNewInvoice(req, res) {
 }
 
 async function putEditInvoice(req, res) {
-    // update one with user email/id and invoice id
-    // edit done in f-e from the invoice itself
-console.log('logging edit', req.body)
-    // f-e sends user email and invoice id and invoice itself(data)
-    // need to serialize the req body with the db operation params
     return dbInvoiceOperations.updateInvoice(req.body)
     .then(data => {
         if (data.error) {
@@ -81,11 +69,7 @@ console.log('logging edit', req.body)
 }
 
 async function deleteInvoice(req, res) {
-    // delete one with user email/id and invoice id
-    // delete done in f-e from the invoice itself
-
-    // f-e send user email and invoice id to delete
-    const invoiceId = req.body; // add the user email if possible?
+    const invoiceId = req.body; 
 
     return dbInvoiceOperations.deleteInvoiceWithId(invoiceId)
     .then(data => {
